@@ -10,18 +10,22 @@ class Shop {
     this.inventory[item.type] = item
     }
   }
+  
   outfitShip(ship, item){
-    console.log(this.inventory[item].value)
-    var currentCredits = ship.captain.credits
-    var finalCredits = ship.captain.credits - this.inventory[item].value
-    var requiredCredits = ship.captain.credits - 200
-    if(ship.captain === undefined){
+    if(!ship.captain){
       return 'cannot outfit a ship without a captain'
-    } else if (finalCredits > 0 && finalCredits < 200){
-      return `you require ${requiredCredits} more credits to make this purchase`
-    } else if (finalCredits > 200){
+    } else if (ship.captain.credits < this.inventory[item].value){
+      var shortFunds = this.inventory[item].value - ship.captain.credits;
+        return `you require ${shortFunds} more credits to make this purchase`
+    } else if (ship.captain.credits > this.inventory[item].value){
+      var capCharge = ship.captain.credits - this.inventory[item].value
+      ship.captain.credits = capCharge;
+      ship.parts[item] = this.inventory[item]
+      delete this.inventory[item]
+    return `${item} added to ship`
+  }
 }
-    }
+
 
 }
 

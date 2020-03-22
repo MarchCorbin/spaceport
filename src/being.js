@@ -10,6 +10,5 @@
       this.credits += credit
     }
   }
-}
 
 module.exports = Being;
